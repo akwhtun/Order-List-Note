@@ -61,13 +61,18 @@ function addList() {
 
 function updateList() {
     global $db;
-    $update = "UPDATE order_lists SET name=:name, order_name =:order_name,   quantity=:quantity, address=:address, updated_at=NOW() WHERE id=7";
+    $id = $_POST['id'];
+    $upName = $_POST['upName'];
+    $upOrder = $_POST['upOrder'];
+    $upQuantity = $_POST['upQuantity'];
+    $upAddress = $_POST['upAddress'];
+    $update = "UPDATE order_lists SET name=:name, order_name =:order_name, quantity=:quantity, address=:address, updated_at=NOW() WHERE id=$id";
     $updateList = $db->prepare($update);
     $updateList->execute([
-        ':name' => 'Kyaw Lay',
-        ':order_name' => 'Desktop',
-        'quantity' => 5,
-        'address' => '123 main road',
+        ':name' => $upName,
+        ':order_name' => $upOrder,
+        ':quantity' => $upQuantity,
+        ':address' => $upAddress
     ]);
     $updatResult = $updateList->rowCount();;
     if($updatResult) {
@@ -79,8 +84,9 @@ function updateList() {
 
 function deleteList() {
     global $db;
+    $id = $_POST['id'];
 
-    $delete = "DELETE FROM order_lists WHERE id=8";
+    $delete = "DELETE FROM order_lists WHERE id=$id";
     $deleteList = $db->prepare($delete);
     $deleteList->execute();
     $deleteResult = $deleteList->rowCount();;

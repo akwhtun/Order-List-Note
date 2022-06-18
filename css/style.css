@@ -1,0 +1,11 @@
+#orderlists li .edit {
+    display: none;
+}
+
+#orderlists li.edit .noedit {
+    display: none;
+}
+
+#orderlists li.edit .edit {
+    display: block;
+}
