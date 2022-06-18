@@ -38,14 +38,18 @@ function getAllLists() {
 
 function addList() {
     global $db;
+    $name = $_POST['name'];
+    $order_name = $_POST['order_name'];
+    $address = $_POST['address'];
+    $quantity = $_POST['quantity'];
 
     $add = "INSERT INTO order_lists (name, order_name, quantity, address, created_at) VALUES (:name, :order_name, :quantity, :address, NOW())";
     $addList = $db->prepare($add);
     $addList->execute([
-        ':name' => 'Kyaw Gyi',
-        ':order_name'=> 'laptop',
-        ':quantity' => 2,
-        ':address' => '5th street Main Road'
+        ':name' => $name,
+        ':order_name'=> $order_name,
+        ':address' => $address,
+        ':quantity' => $quantity
     ]);
     $addResult = $db->lastInsertId();
     if($addResult) {

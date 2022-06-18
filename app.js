@@ -1,6 +1,10 @@
 $(function () {
 
     var orderul = $('#orderlists');
+    var addName = $('#name');
+    var addOrder = $('#order');
+    var addQuantity = $('#quantity');
+    var addAddress = $('#address');
     
     //get all orderlists
 
@@ -13,6 +17,18 @@ $(function () {
 
     }, 'json');
 
+    //add orderlists
+    $('#addBtn').on('click', function() {
+        var addOrderList = {makeRequest: 'add', name: addName.val(), order_name: addOrder.val(), quantity: addQuantity.val(), address: addAddress.val()};
+    
+        $.post('/orderlists/manageRequest.php', addOrderList, function(addListId) {
+            
+            listOrder(addOrderList, addListId);
+        })
+       });
+
+    
+    //lists
     function listOrder(order, dataId) {
         var orderli = $('<li>');
 
