@@ -1,3 +1,152 @@
+*{
+    box-sizing: border-box;
+}
+
+html,body{
+    --bcolor: #1A237E;
+    --color: #fffefe;
+    --fcolor: #304FFE;
+    margin: 0;
+    background:#E0F7FA;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    width: 460px;
+    margin:20px auto;
+    border:4px solid var(--bcolor);
+}
+
+h2 {
+    background: var(--bcolor);
+    color: var(--color);
+    padding:5px;
+    margin: 0;
+}
+
+ul#orderlists {
+    padding: 0;
+    margin: 0;
+    min-height: 80px;
+    max-height: 230px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    background: #3e5cf438;
+}
+
+#orderlists li {
+    list-style-type: none;
+    background: var(--color);
+    padding:5px;
+    border-bottom: 2px dotted var(--bcolor);
+    font-size: large;
+    overflow: hidden;
+    position: relative;
+}
+
+#orderlists li p {
+    text-indent: 8px;
+    position: relative;
+}
+
+
+#orderlists li p > input,textarea {
+    position: absolute;
+    left:100px;
+    width: 230px;
+    font-size:16px;
+    border:1px solid var(--bcolor);
+    padding:3px;
+    color:var(--fcolor);
+}
+#orderlists li p label {
+     color:var(--bcolor);
+    font-weight:500;
+    display:inline-block;
+    transform:translate(-10%,30%);
+}
+
+#orderlists li button, #addBtn, #done {
+    display:-inline-block;
+    background:var(--bcolor);
+    width:90px;
+    height:30px;
+    border:none;
+    border-radius:3px;
+    font-size:16px;
+    color:var(--color);
+    cursor:pointer;
+    margin-left:10px;
+}
+
+#canBtn {
+    float:left;
+    margin-top:14px;
+}
+
+#saveBtn {
+    float:left;
+    margin-top:14px;
+}
+
+fieldset {
+    height: 260px;
+    display: flex;
+    border:3px solid var(--bcolor);
+    flex-direction: column;
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+legend {
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--bcolor);
+    font-size: larger;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+div.ig {
+    position: relative;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+div.ig label {
+    color: var(--bcolor);
+    font-size: large;
+}
+
+div.ig > input,textarea {
+    width: 250px;
+    padding: 6px;
+    border: 1px solid var(--bcolor);
+    position: absolute;
+    left:95px;
+    transform: translateY(-13%);
+    font-size:18px;
+    color:var(--fcolor);
+}
+
+#addBtn {
+    position:absolute;
+    left:0px;
+    bottom:3px;
+}
+
+#check {
+    position: absolute;
+    right: 80px;
+    bottom: 3px;
+    height: 32px;
+    width: 32px;
+}
+
+/* Edit Mode */
 #orderlists li .edit {
     display: none;
 }

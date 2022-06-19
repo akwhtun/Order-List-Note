@@ -10,9 +10,8 @@ $(function () {
 
     $.get('/orderlists/manageRequest.php', {makeRequest: 'get'}, function(orderLists) {
         $.each(orderLists, function(index, orderlist) {
-            
-            listOrder(orderlist, orderlist.id);
 
+          listOrder(orderlist, orderlist.id);
         });
 
     }, 'json');
@@ -20,17 +19,18 @@ $(function () {
     //add orderlists
     $('#addBtn').on('click', function() {
         var addOrderList = {makeRequest: 'add', name: addName.val(), order_name: addOrder.val(), quantity: addQuantity.val(), address: addAddress.val()};
-    
         $.post('/orderlists/manageRequest.php', addOrderList, function(addListId) {
             
             listOrder(addOrderList, addListId);
-        })
-       });
+    })
+    });
 
     
     //lists
     function listOrder(order, dataId) {
-        var orderli = $('<li>');
+        var orderli = $('<li>', {
+            'data-id': dataId
+        });
 
         //<p> for noedit
         var p1 = $('<p>', {
@@ -61,7 +61,13 @@ $(function () {
             var saddress = $('<strong>').html('Address : ');
             var saddressValue = $('<span>', {
                 'id' : 'span-address'
-            }).html(order.address);  
+            }).html(order.address); 
+            
+            //<p> <strong> </strong> <span> </span> </p>      
+            var pa1 = p1.append(sname).append(snameValue); 
+            var pa2 = p2.append(sorder).append(sorderValue); 
+            var pa3 = p3.append(squantity).append(squantityValue); 
+            var pa4 = p4.append(saddress).append(saddressValue);
 
             // start edit mode
             //<p> for edit
@@ -102,12 +108,15 @@ $(function () {
                'id' : 'editorder'
            })
            var in3 = $('<input>', {
-               'type': 'text',
+                'type': 'number',
+                'min': '1',
+                'max': '100',
                'name': 'quantity',
                'id' : 'editquantity'
            })
-           var in4 = $('<input>', {
-               'type': 'text',
+           var in4 = $('<textarea>', {
+               'rows': '2',
+               'cols': '25',
                'name': 'address',
                'id' : 'editaddress'
            })
@@ -117,25 +126,19 @@ $(function () {
            var forEdit2 = editp2.append(lb2).append(in2);
            var forEdit3 = editp3.append(lb3).append(in3);
            var forEdit4 = editp4.append(lb4).append(in4);
-            //end edit mode
-
-            //<p> <strong> </strong> <span> </span> </p>      
-            var pa1 = p1.append(sname).append(snameValue); 
-            var pa2 = p2.append(sorder).append(sorderValue); 
-            var pa3 = p3.append(squantity).append(squantityValue); 
-            var pa4 = p4.append(saddress).append(saddressValue); 
+            //end edit mode 
 
             //start Edit Button 
             var editBtn = $('<button>', {
                 'id' : 'editBtn',
                 'class' : 'noedit'
             }).html('Edit').on('click', function() {
-                $(this).closest('li').addClass('edit');
                 var li = $(this).closest('li');
+                li.addClass('edit');
                 in1.attr('value', li.find('#span-name').html());
                 in2.attr('value', li.find('#span-order').html());
                 in3.attr('value', li.find('#span-quantity').html());
-                in4.attr('value', li.find('#span-address').html());
+                in4.html(li.find('#span-address').html())
             });
 
 
@@ -175,10 +178,11 @@ $(function () {
             }).html('Delete').on('click', function() {
                 var a = $(this).closest('li'); 
                 $.post('/orderlists/manageRequest.php', {makeRequest: 'delete', id: dataId}, function(dc) {
-                   a.remove();
+                   a.fadeOut(200, function() {
+                       $(this).remove();
+                   });
                 })
             });
-
 
             //before create edit mode
             //<li> <p> <strong> </strong> <span> </span> </p> </li>
@@ -192,8 +196,7 @@ $(function () {
 
              //<ul> <li> ***** </li> </ul>
             orderul.append(addli);
-
-            
-
     }
+
+    
 })

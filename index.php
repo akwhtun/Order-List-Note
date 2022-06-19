@@ -8,31 +8,34 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-<body>
     <div class="container">
         <h2>Orders Lists</h2>
         <ul id="orderlists">
-            
+
         </ul>
-
         <!-- Add Order Lists Form -->
-        <div class="input-group">
-
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="order">Order</label>
-            <input type="text" id="order" name="order" required>
-
-            <label for="quantity">Quantity</label>
-            <input type="text" id="quantity" name="quantity">
-
-            <label for="address">Address</label>
-            <input type="text" id="address" name="address" required>
-
-            <button id="addBtn">Add</button>
-
-        </div>
+        <form class="input-group">
+            <fieldset>
+                <legend>Add Order</legend>
+                <div class="ig ig1">
+                    <label for="name">Name : </label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="ig ig2">
+                    <label for="order">Order : </label>
+                    <input type="text" id="order" name="order" required>
+                </div>
+                <div class="ig ig3">
+                    <label for="quantity">Quantity : </label>
+                    <input type="number" min="1" max="100" value="1" id="quantity" name="quantity">
+                </div>
+                <div class="ig ig4">
+                    <label for="address">Address : </label>
+                    <textarea name="address" id="address" cols="30" rows="2" required></textarea>
+                </div>
+                <button id="addBtn">ADD</button>
+            </fieldset>
+        </form>
     </div>
     <script src="./jQuery/jquery.js"></script>
     <script src="./app.js"></script>
