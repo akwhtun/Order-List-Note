@@ -24,11 +24,11 @@ h2 {
     margin: 0;
 }
 
-ul#orderlists {
+ul#orderlists, ul#donelists {
     padding: 0;
     margin: 0;
     min-height: 80px;
-    max-height: 230px;
+    max-height: 260px;
     overflow: scroll;
     scroll-behavior: smooth;
     background: #3e5cf438;
@@ -37,7 +37,7 @@ ul#orderlists {
 #orderlists li {
     list-style-type: none;
     background: var(--color);
-    padding:5px;
+    padding:3px 5px;
     border-bottom: 2px dotted var(--bcolor);
     font-size: large;
     overflow: hidden;
@@ -66,7 +66,7 @@ ul#orderlists {
     transform:translate(-10%,30%);
 }
 
-#orderlists li button, #addBtn, #done {
+#orderlists li button, #addBtn, #doneBtn {
     display:-inline-block;
     background:var(--bcolor);
     width:90px;
@@ -76,7 +76,7 @@ ul#orderlists {
     font-size:16px;
     color:var(--color);
     cursor:pointer;
-    margin-left:10px;
+    margin-left:8px;
 }
 
 #canBtn {
@@ -124,12 +124,13 @@ div.ig label {
 div.ig > input,textarea {
     width: 250px;
     padding: 6px;
-    border: 1px solid var(--bcolor);
+    border: 2px solid var(--bcolor);
     position: absolute;
     left:95px;
     transform: translateY(-13%);
     font-size:18px;
     color:var(--fcolor);
+    outline: none;
 }
 
 #addBtn {
@@ -146,6 +147,24 @@ div.ig > input,textarea {
     width: 32px;
 }
 
+.ig > p {
+    display: none;
+}
+
+.ig > p.rq {
+    display: inline-block;
+    color:red;
+    opacity: 0.8;
+    position:absolute;
+    right:5px;
+    top:0;
+    font-size: large;
+    font-style: italic;
+}
+
+.ig > .rn,.ro {
+    transform: translateY(-52%);
+}
 /* Edit Mode */
 #orderlists li .edit {
     display: none;
@@ -157,4 +176,40 @@ div.ig > input,textarea {
 
 #orderlists li.edit .edit {
     display: block;
+}
+
+/* Done Undo */
+ul#donelists{
+    min-height: 0;
+    max-height: 193px;
+}
+#donelists li{
+    list-style-type: none;
+    background: var(--bcolor);
+    color:var(--color);
+    text-decoration:line-through;
+    padding-left: 5px;
+    border-bottom: 1px dotted var(--color);
+    font-size: 15px;
+    overflow: hidden;
+}
+
+#del, #undo {
+    display:-inline-block;
+    background:var(--color);
+    color:var(--bcolor);
+    width:65px;
+    height:28px;
+    border:none;
+    border-radius:3px;
+    font-size:16px;
+    cursor:pointer;
+    transform:translateY(-30%);
+}
+
+#doneBtn{
+    margin-top:14px;
+}
+#undo{
+    margin-left:8px;
 }

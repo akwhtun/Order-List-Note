@@ -20,6 +20,12 @@ switch ($getRequest) {
     case 'delete':
         deleteList();
         break;
+    case 'done':
+        doneList();
+        break;
+    case 'undone':
+        undoneList();
+        break;
     default:
         unknownList();
         break;
@@ -89,13 +95,41 @@ function deleteList() {
     $delete = "DELETE FROM order_lists WHERE id=$id";
     $deleteList = $db->prepare($delete);
     $deleteList->execute();
-    $deleteResult = $deleteList->rowCount();;
+    $deleteResult = $deleteList->rowCount();
     if($deleteResult) {
         print_r($deleteResult);
     }else {
         print_r(array('msg' => 'cannot delete list'));
     }
 };
+
+function doneList() {
+    global $db;
+    $id = $_POST['id'];
+    $done = "UPDATE order_lists SET done=1, done_at=NOW() WHERE id=$id";
+    $doneList = $db->prepare($done);
+    $doneList->execute();
+    $doneResult = $doneList->rowCount();
+    if($doneResult) {
+        print_r($doneResult);
+    }else {
+        print_r(array('msg' => 'cannot done list'));
+    }
+}
+
+function undoneList() {
+    global $db;
+    $id = $_POST['id'];
+    $undone = "UPDATE order_lists SET done=0 WHERE id=$id";
+    $undoneList = $db->prepare($undone);
+    $undoneList->execute();
+    $undoneResult = $undoneList->rowCount();
+    if($undoneResult) {
+        print_r($undoneResult);
+    }else {
+        print_r(array('msg' => 'cannot undone list'));
+    }
+}
 
 function unknownList() {
  print_r(array('msg' => 'unknown request'));

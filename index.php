@@ -13,17 +13,24 @@
         <ul id="orderlists">
 
         </ul>
+
+        <ul id="donelists">
+
+        </ul>
+        
         <!-- Add Order Lists Form -->
-        <form class="input-group">
+        <div class="input-group">
             <fieldset>
                 <legend>Add Order</legend>
                 <div class="ig ig1">
                     <label for="name">Name : </label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name">
+                    <p class="rn">require</p>
                 </div>
                 <div class="ig ig2">
                     <label for="order">Order : </label>
-                    <input type="text" id="order" name="order" required>
+                    <input type="text" id="order" name="order">
+                    <p class="ro">require</p>
                 </div>
                 <div class="ig ig3">
                     <label for="quantity">Quantity : </label>
@@ -31,11 +38,12 @@
                 </div>
                 <div class="ig ig4">
                     <label for="address">Address : </label>
-                    <textarea name="address" id="address" cols="30" rows="2" required></textarea>
+                    <textarea name="address" id="address" cols="30" rows="2"></textarea>
+                    <p>require</p>
                 </div>
-                <button id="addBtn">ADD</button>
+                <button id="addBtn" type="submit">ADD</button>
             </fieldset>
-        </form>
+        </div>
     </div>
     <script src="./jQuery/jquery.js"></script>
     <script src="./app.js"></script>

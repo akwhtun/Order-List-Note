@@ -1,31 +1,64 @@
 $(function () {
 
     var orderul = $('#orderlists');
+    var doneul = $('#donelists');
     var addName = $('#name');
     var addOrder = $('#order');
     var addQuantity = $('#quantity');
     var addAddress = $('#address');
-    
+
     //get all orderlists
 
     $.get('/orderlists/manageRequest.php', {makeRequest: 'get'}, function(orderLists) {
         $.each(orderLists, function(index, orderlist) {
-
-          listOrder(orderlist, orderlist.id);
+            if(orderlist.done != 1) {
+                listOrder(orderlist, orderlist.id);
+            }
+            if(orderlist.done == 1){
+                doneOrderLists(orderlist, orderlist.id);
+            }
+            console.log(orderlist.done)
         });
 
     }, 'json');
 
     //add orderlists
+    var require = $('#addBtn').parent().find('p');
+        addName.keydown(function() {
+            require.eq(0).removeClass('rq');
+        });
+        addOrder.keydown(function() {
+            require.eq(1).removeClass('rq');
+        });
+        addAddress.keydown(function() {
+            require.eq(2).removeClass('rq');
+        });
+
     $('#addBtn').on('click', function() {
+        if(!addName.val()){
+            require.eq(0).addClass('rq');
+            return
+        }
+
+        if(!addOrder.val()){
+            require.eq(1).addClass('rq');
+            return
+        }
+        if(!addAddress.val()){
+            require.eq(2).addClass('rq');
+            return
+        }
+
         var addOrderList = {makeRequest: 'add', name: addName.val(), order_name: addOrder.val(), quantity: addQuantity.val(), address: addAddress.val()};
         $.post('/orderlists/manageRequest.php', addOrderList, function(addListId) {
             
             listOrder(addOrderList, addListId);
-    })
+    });
+    addName.val('');
+    addOrder.val('');
+    addAddress.val('');
     });
 
-    
     //lists
     function listOrder(order, dataId) {
         var orderli = $('<li>', {
@@ -184,6 +217,10 @@ $(function () {
                 })
             });
 
+            var done = $('<button>',{
+                'id': 'doneBtn',
+            }).html('Done');
+
             //before create edit mode
             //<li> <p> <strong> </strong> <span> </span> </p> </li>
             // var addli = orderli.append(pa1).append(pa2).append(pa3).append(pa4);
@@ -192,10 +229,94 @@ $(function () {
             //<li> 'for-noedit' <p> <strong> </strong> <span> </span> </p>
             //'for-edit' <p> <label> </label> <input> </p>
             //<div> buttons group </div> </li>
-            var addli = orderli.append(pa1).append(pa2).append(pa3).append(pa4).append(forEdit1).append(forEdit2).append(forEdit3).append(forEdit4).append(editBtn).append(cancelBtn).append(saveBtn).append(deleteBtn);
+            var addli = orderli.append(pa1).append(pa2).append(pa3).append(pa4).append(forEdit1).append(forEdit2).append(forEdit3).append(forEdit4).append(editBtn).append(cancelBtn).append(saveBtn).append(deleteBtn).append(done);
 
              //<ul> <li> ***** </li> </ul>
             orderul.append(addli);
+    }
+
+    //Done Undo Mode
+    orderul.delegate('#doneBtn','click', function() {
+        var doneId = $(this).closest('li').attr('data-id');
+        var get = $(this).closest('li');
+       $.post('/orderlists/manageRequest.php', {makeRequest:'done', id: doneId }, function(di){
+        var getDoneName = get.find('#span-name').html();
+        var getDoneOrder = get.find('#span-order').html();
+        var getDoneQuantity = get.find('#span-quantity').html();
+        var getDoneAddress = get.find('#span-address').html();
+        var doneObj = {name: getDoneName, order_name: getDoneOrder, quantity: getDoneQuantity, address: getDoneAddress};
+        doneOrderLists(doneObj, doneId );
+        get.remove();
+    });
+    });
+
+    //done lists
+    function doneOrderLists(doneList, done){
+        var li = $('<li>', {
+            'data-id': done,
+            'id' : 'doneli',
+        });
+
+         //<p> for done
+        var p1 = $('<p>');
+        var p2 = $('<p>');
+        var p3 = $('<p>');
+        var p4 = $('<p>');
+
+        var sname = $('<strong>').html('Name : ');
+        var snameValue = $('<span>', {
+            'id': 'span-name'
+        }).html(doneList.name);  
+        var sorder = $('<strong>').html('Order : ');
+        var sorderValue = $('<span>', {
+            'id': 'span-order'
+        }).html(doneList.order_name);  
+        var squantity = $('<strong>').html('Quantity : ');
+        var squantityValue = $('<span>', {
+            'id': 'span-quantity'
+        }).html(doneList.quantity);  
+        var saddress = $('<strong>').html('Address : ');
+        var saddressValue = $('<span>', {
+            'id' : 'span-address'
+        }).html(doneList.address); 
+        
+        //<p> <strong> </strong> <span> </span> </p>      
+        var pa1 = p1.append(sname).append(snameValue); 
+        var pa2 = p2.append(sorder).append(sorderValue); 
+        var pa3 = p3.append(squantity).append(squantityValue); 
+        var pa4 = p4.append(saddress).append(saddressValue);
+
+        //done delete button
+        var del = $('<button>', {
+            'id': 'del',
+        }).html('Delete').on('click', function() {
+            var delLi = $(this).closest('li'); 
+            $.post('/orderlists/manageRequest.php', {makeRequest: 'delete', id: done}, function(dc) {
+                   delLi.remove();
+               });
+            });
+        
+        //undo button
+        var undo = $('<button>', {
+            'id' : 'undo'
+        }).html('Undo').on('click', function() {
+            var undoList = $(this).closest('li');
+            var unid = undoList.attr('data-id');
+            $.post('/orderlists/manageRequest.php', {makeRequest: 'undone', id: done}, function(uc) {
+            var getUndoneName = undoList.find('#span-name').html();
+            var getUndoneOrder = undoList.find('#span-order').html();
+            var getUndoneQuantity = undoList.find('#span-quantity').html();
+            var getUndoneAddress = undoList.find('#span-address').html();
+        var undoneObj = {name: getUndoneName, order_name: getUndoneOrder, quantity: getUndoneQuantity, address: getUndoneAddress};
+                listOrder(undoneObj, unid);
+                undoList.remove();
+            })
+        })
+
+        var doneli = li.append(pa1).append(pa2).append(pa3).append(pa4).append(del).append(undo);
+
+        doneul.append(doneli);
+
     }
 
     
