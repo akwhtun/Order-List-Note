@@ -26,6 +26,9 @@ switch ($getRequest) {
     case 'undone':
         undoneList();
         break;
+    case 'priority':
+        dopriority();
+        break;
     default:
         unknownList();
         break;
@@ -33,7 +36,7 @@ switch ($getRequest) {
 
 function getAllLists() {
     global $db;
-    $allLists = $db->query("SELECT * FROM order_lists");
+    $allLists = $db->query("SELECT * FROM order_lists ORDER BY priority DESC");
     $result = $allLists->fetchAll();
     if($result){
         print_r(json_encode($result));
@@ -120,7 +123,7 @@ function doneList() {
 function undoneList() {
     global $db;
     $id = $_POST['id'];
-    $undone = "UPDATE order_lists SET done=0 WHERE id=$id";
+    $undone = "UPDATE order_lists SET done=0, priority=0 WHERE id=$id";
     $undoneList = $db->prepare($undone);
     $undoneList->execute();
     $undoneResult = $undoneList->rowCount();
@@ -128,6 +131,23 @@ function undoneList() {
         print_r($undoneResult);
     }else {
         print_r(array('msg' => 'cannot undone list'));
+    }
+}
+
+function dopriority() {
+    global $db;
+    $id = $_POST['id'];
+    $prinum = $_POST['prinum'];
+    $priority = "UPDATE order_lists SET priority=:priority WHERE id=$id";
+    $priorityList = $db->prepare($priority);
+    $priorityList->execute([
+        ':priority'=> $prinum
+    ]);
+    $priorityResult = $priorityList->rowCount();
+    if($priorityResult) {
+        print_r($priorityResult);
+    }else {
+        print_r(array('msg' => 'cannot do priority'));
     }
 }
 

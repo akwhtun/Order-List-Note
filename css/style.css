@@ -12,29 +12,40 @@ html,body{
 }
 
 .container {
-    width: 460px;
-    margin:20px auto;
+    width: 1300px;
+    margin:25px auto;
     border:4px solid var(--bcolor);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 h2 {
+    width:100%;
     background: var(--bcolor);
     color: var(--color);
     padding:5px;
     margin: 0;
 }
+#prioritylists{
+    width: 440px;
+}
+ul#orderlists{
+    width: 440px;
+}
+ul#donelists{
+    width: 412px;
+}
 
 ul#orderlists, ul#donelists {
     padding: 0;
     margin: 0;
-    min-height: 80px;
-    max-height: 260px;
+    max-height: 242px;
     overflow: scroll;
     scroll-behavior: smooth;
     background: #3e5cf438;
 }
 
-#orderlists li {
+#orderlists li,#donelists li {
     list-style-type: none;
     background: var(--color);
     padding:3px 5px;
@@ -44,29 +55,29 @@ ul#orderlists, ul#donelists {
     position: relative;
 }
 
-#orderlists li p {
+#orderlists li p, #prioritylists li p{
     text-indent: 8px;
     position: relative;
 }
 
 
-#orderlists li p > input,textarea {
+#orderlists li p > input, textarea {
     position: absolute;
-    left:100px;
+    left:95px;
     width: 230px;
     font-size:16px;
-    border:1px solid var(--bcolor);
+    border:2px solid var(--bcolor);
     padding:3px;
     color:var(--fcolor);
 }
-#orderlists li p label {
+#orderlists li p label{
      color:var(--bcolor);
     font-weight:500;
     display:inline-block;
     transform:translate(-10%,30%);
 }
 
-#orderlists li button, #addBtn, #doneBtn {
+#orderlists li > button{
     display:-inline-block;
     background:var(--bcolor);
     width:90px;
@@ -74,9 +85,11 @@ ul#orderlists, ul#donelists {
     border:none;
     border-radius:3px;
     font-size:16px;
+    font-style:normal;
     color:var(--color);
     cursor:pointer;
     margin-left:8px;
+    transform:translateY(-13%);
 }
 
 #canBtn {
@@ -90,6 +103,8 @@ ul#orderlists, ul#donelists {
 }
 
 fieldset {
+    width:880px;
+    background:#B3E5FC;
     height: 260px;
     display: flex;
     border:3px solid var(--bcolor);
@@ -119,32 +134,36 @@ div.ig {
 div.ig label {
     color: var(--bcolor);
     font-size: large;
+    margin-left:5px;
 }
 
-div.ig > input,textarea {
-    width: 250px;
+div.ig > input,div.ig > #address {
+    width: 300px;
     padding: 6px;
     border: 2px solid var(--bcolor);
     position: absolute;
-    left:95px;
+    left:105px;
     transform: translateY(-13%);
     font-size:18px;
     color:var(--fcolor);
     outline: none;
 }
+div.ig > textarea{
+    margin-top:4px;
+}
 
 #addBtn {
     position:absolute;
-    left:0px;
+    left:20px;
     bottom:3px;
-}
-
-#check {
-    position: absolute;
-    right: 80px;
-    bottom: 3px;
-    height: 32px;
-    width: 32px;
+    width:90px;
+    height:30px;
+    font-size:18px;
+    color:var(--color);
+    background:#002f44;
+    border:none;
+    border-radius:2px;
+    cursor:pointer;
 }
 
 .ig > p {
@@ -156,7 +175,7 @@ div.ig > input,textarea {
     color:red;
     opacity: 0.8;
     position:absolute;
-    right:5px;
+    left:410px;
     top:0;
     font-size: large;
     font-style: italic;
@@ -166,50 +185,242 @@ div.ig > input,textarea {
     transform: translateY(-52%);
 }
 /* Edit Mode */
-#orderlists li .edit {
+#orderlists li .edit, #prioritylists li .edit {
     display: none;
 }
 
-#orderlists li.edit .noedit {
+#orderlists li.edit .noedit, #prioritylists li.edit .noedit {
     display: none;
 }
 
-#orderlists li.edit .edit {
+#orderlists li.edit .edit, #prioritylists li.edit .edit {
     display: block;
 }
 
 /* Done Undo */
-ul#donelists{
-    min-height: 0;
-    max-height: 193px;
-}
 #donelists li{
-    list-style-type: none;
     background: var(--bcolor);
     color:var(--color);
     text-decoration:line-through;
-    padding-left: 5px;
-    border-bottom: 1px dotted var(--color);
-    font-size: 15px;
-    overflow: hidden;
+    padding-bottom:17px;
+    border-bottom:2px dotted var(--color);
 }
 
-#del, #undo {
+.del, #undo {
     display:-inline-block;
     background:var(--color);
     color:var(--bcolor);
-    width:65px;
-    height:28px;
+    width:90px;
+    height:30px;
     border:none;
-    border-radius:3px;
     font-size:16px;
+    font-weight:lighter;
+    font-style:normal;
+    margin-left:8px;
     cursor:pointer;
-    transform:translateY(-30%);
+    transform:translateY(35%);
+}
+.del {
+    background:#4527A0; 
+    color: var(--color);
+    margin-left:0;
 }
 
-#doneBtn{
+#orderlists #doneBtn,#prioritylists #doneBtn{
     margin-top:14px;
 }
 #undo{
-    margin-left:8px;
+    margin-left:10px;
 }
+
+
+/* priority tasks */
+.star{
+    --ps1 : 310px;
+    --ps2 : 350px;
+    --ps3 : 390px;
+    position:absolute;
+   bottom:6px;
+   font-size:30px;
+   color:#FFEB3B;
+   cursor:pointer;
+   animation: star 2s ease-in 2s infinite alternate forwards;
+}
+
+#star1{
+    left:var(--ps1);
+}
+#star2{
+    left:var(--ps2);
+}
+#star3{
+    left:var(--ps3);
+}
+
+#prioritylists{
+    display: none;
+}
+
+#prioritylists.priority {
+    display: block;
+}
+
+ul#prioritylists {
+    padding: 0;
+    margin: 0;
+    min-height: 80px;
+    max-height: 242px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    background: #2c4cec38;
+}
+ul#prioritylists li {
+    background: -webkit-linear-gradient(left,#ffe816,#03cdfff6,#2962ff);
+    list-style-type: none;
+    padding:3px 5px;
+    border-bottom: 2px solid #fdd835;
+    font-size: large;
+    overflow: hidden;
+    color:#e00000;
+    position: relative;
+    animation: color 5s ease 12s;
+}
+
+#prioritylists li p > input,#prioritylists li p > textarea {
+    position: absolute;
+    left:95px;
+    width: 230px;
+    font-size:16px;
+    border:2px solid #ffe816;
+    padding:3px;
+    color:#f57000;
+    background: #ffd64f56;
+}
+#prioritylists li p label{
+     color:#0f0051;
+    font-weight:500;
+    display:inline-block;
+    transform:translate(-10%,30%);
+}
+
+#prioritylists li > button{
+    display:-inline-block;
+    background:dodgerblue;
+    width:90px;
+    height:30px;
+    border:none;
+    border-radius:3px;
+    font-size:18px;
+    font-style:italic;
+    color:#000;
+    cursor:pointer;
+    margin-left:8px;
+    transform:translateY(-13%);
+    animation: btn 4s ease 12s;
+}
+
+@keyframes color {
+   0%{
+       color:#000;
+   }
+   30%{
+       color:#580067;
+   }
+   50%{
+       color:#ffe600;
+   } 
+   70%{
+       color:rgb(0, 94, 49);
+   }
+   100%{
+       color:snow;
+   }
+}
+
+@keyframes btn {
+    0%{
+        background: #000;
+        color:snow;
+    }
+    50%{
+        background: snow;
+        color:#000;
+    }
+    100%{
+        background: dodgerblue;
+        color:#5a5a5a;
+    }
+}
+
+@keyframes star {
+    10%{
+        color: #fff492;
+    }
+    40%{
+        color: #e7d10d;
+    }
+    70%{
+        color: #ffe600;
+    }
+    100%{
+        color:#fff200;
+    }
+}
+
+ @media (max-width: 1313px) and (min-width: 836px){
+
+    .container {
+        width:820px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    ul#prioritylists{
+        width: 100%;
+    }
+    ul#orderlists{
+        width: 55%;
+    }
+    ul#donelists{
+        width: 45%;
+    }
+    fieldset{
+        width: 807px;
+    }
+} 
+@media (max-width: 836px){
+    .container {
+        width:480px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    ul#prioritylists{
+        width: 100%;
+    }
+    ul#orderlists{
+        width: 100%;
+    }
+    ul#donelists{
+        width: 100%;
+    }
+    fieldset{
+        width: 467px;
+    }
+    div.ig label{
+    margin-left: 0;
+    }
+    div.ig > input,div.ig > #address{
+        left: 95px;
+    }
+    .ig > p.rq{
+        left:395px;
+    }
+} 
+
+
+
+
+
+
+

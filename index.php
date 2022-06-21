@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Lists</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./fontawesome/css/all.css">
 </head>
 <body>
     <div class="container">
         <h2>Orders Lists</h2>
+
+        <ul id="prioritylists">
+
+        </ul>
+
         <ul id="orderlists">
 
         </ul>
@@ -47,5 +53,6 @@
     </div>
     <script src="./jQuery/jquery.js"></script>
     <script src="./app.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
