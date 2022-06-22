@@ -244,7 +244,6 @@ div.ig > textarea{
    font-size:30px;
    color:#FFEB3B;
    cursor:pointer;
-   animation: star 2s ease-in 2s infinite alternate forwards;
 }
 
 #star1{
@@ -263,6 +262,10 @@ div.ig > textarea{
 
 #prioritylists.priority {
     display: block;
+}
+
+ul#prioritylists .star{
+    animation: star 2s ease-in 2s infinite alternate forwards;
 }
 
 ul#prioritylists {
@@ -318,6 +321,58 @@ ul#prioritylists li {
     transform:translateY(-13%);
     animation: btn 4s ease 12s;
 }
+
+#searchBar {
+    display: block;
+    width: 1230px;
+   padding:5px;
+   border:1px solid var(--bcolor);
+   border-radius:22px;
+   font-size:20px;
+   text-indent:8px;
+   background:lightblue;
+   color:#1a237e;
+   margin-left:8px;
+   margin-top:1px;
+   display:none;
+}
+.search.sb #searchBar {
+    display: inline-block;
+}
+.search.sb {
+    height:36px;
+}
+div.search{
+    width: 100%;
+   margin-top:0px;
+   height:16px;
+   position:relative;
+   background: #1e2dd2;
+}
+#up-down{
+    display:flex;
+    flex-direction:column;
+   position:absolute;
+   padding:0 10px;
+   right:10px;
+   top:-11px; 
+ }
+ #up,#down{
+    font-size:35px;
+ }
+ #down{
+    display:none;
+ }
+#up-down.show{
+    top:-3px;
+}
+ #up-down.show #down{
+     display: inline-block;
+ }
+ #up-down.show #up{
+     display: none;
+ }
+ 
 
 @keyframes color {
    0%{
@@ -387,6 +442,9 @@ ul#prioritylists li {
     fieldset{
         width: 807px;
     }
+    #searchBar{
+        width: 802px;
+    }
 } 
 @media (max-width: 836px){
     .container {
@@ -416,11 +474,7 @@ ul#prioritylists li {
     .ig > p.rq{
         left:395px;
     }
+    #searchBar{
+        width: 455px;
+    }
 } 
-
-
-
-
-
-
-

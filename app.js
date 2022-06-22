@@ -7,14 +7,36 @@ $(function () {
     var addOrder = $('#order');
     var addQuantity = $('#quantity');
     var addAddress = $('#address');
+    var up = $('#up');
+    var down = $('#down');
+    var searchBar = $('#searchBar');
+    var search = $('.search');
+    let l1,l2,l3;
+    let sum =0;
 
+    load();
     //get all orderlists
+    function load() {
+        $.get('/orderlists/manageRequest.php', {makeRequest: 'get'}, function (orderLists) {
+            orderul.html('');
+            priul.html('');
+            doneul.html('');
+            displayList(orderLists);
+            l1 = $('#orderlists li').length;
+            l2 = $('#donelists li').length;
+            l3 = $('#prioritylists li').length;
+            sum = l1 + l2+ l3 ;
+            $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
+       }, 'json');
+    }
+  
+    function displayList(resultLists){
+        $.each(resultLists, function(index, orderlist) {
 
-    $.get('/orderlists/manageRequest.php', {makeRequest: 'get'}, function(orderLists) {
-        $.each(orderLists, function(index, orderlist) {
-            if(orderlist.done != 1 && orderlist.priority < 1) {
+             if(orderlist.done != 1 && orderlist.priority < 1) {
                 listOrder(orderlist, orderlist.id);
             }
+            
             if(orderlist.priority > 0 && orderlist.done != 1) {
                 var getli = listOrder(orderlist, orderlist.id);
                     priul.addClass('priority');
@@ -48,9 +70,8 @@ $(function () {
             if(orderlist.done == 1){
                 doneOrderLists(orderlist, orderlist.id);
             }
-        });
-
-    }, 'json');
+    });
+}
 
     //add orderlists
     var require = $('#addBtn').parent().find('p');
@@ -82,7 +103,10 @@ $(function () {
         var addOrderList = {makeRequest: 'add', name: addName.val(), order_name: addOrder.val(), quantity: addQuantity.val(), address: addAddress.val(), priority: 0};
         $.post('/orderlists/manageRequest.php', addOrderList, function(addListId) {
             
-            listOrder(addOrderList, addListId);
+            listOrder(addOrderList, addListId);       
+            ++sum;
+            $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
+
     });
         addName.val('');
         addOrder.val('');
@@ -248,8 +272,9 @@ $(function () {
         var addli = orderli.append(pa1).append(pa2).append(pa3).append(pa4).append(forEdit1).append(forEdit2).append(forEdit3).append(forEdit4).append(editBtn).append(cancelBtn).append(saveBtn).append(deleteBtn).append(done).append(icon1).append(icon2).append(icon3);
 
             //<ul> <li> ***** </li> </ul>
-        orderul.append(addli);
+        orderul.prepend(addli);
         return orderli;
+
 }
     //Done Undo Mode
    function doneAll(doul){
@@ -320,9 +345,8 @@ $(function () {
         }).html('Undo');
 
         var doneli = li.append(pa1).append(pa2).append(pa3).append(pa4).append(del).append(undo);
-
-        doneul.append(doneli);
-
+        
+        doneul.prepend(doneli);
     };
 
     //Undo Btn
@@ -337,8 +361,8 @@ $(function () {
     var undoneObj = {name: getUndoneName, order_name: getUndoneOrder, quantity: getUndoneQuantity, address: getUndoneAddress, priority: 0};
             listOrder(undoneObj, unid);
             undoList.remove();
-
-        })
+        });
+        
     })
 
 
@@ -353,8 +377,8 @@ $(function () {
         $(this).removeClass('far fa-star se').addClass('fas fa-star-half-alt sh');
         $.post('/orderlists/manageRequest.php', {makeRequest: 'priority', id: priId, prinum: ptask}, function(pi) {
             getli.clone().prependTo(priul);
-            
             getli.remove();
+            
         })
     })
 
@@ -461,14 +485,57 @@ $(function () {
         var a = $(this).closest('li'); 
         var did = a.attr('data-id');
         $.post('/orderlists/manageRequest.php', {makeRequest: 'delete', id: did}, function(dc) {
-            a.fadeOut(200, function() {
-                $(this).remove();
-            });
-        })
+            a.remove();
+            // a.fadeOut(200, function() {
+            //     $(this).remove();
+            // });
+            load();
+        })   
+       if(sum > 0) {
+        --sum;
+        $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
+       }     
     });
    }
    deleteAll(orderul);
    deleteAll(doneul);
    deleteAll(priul);
 
+    //Search Bar
+    let dataSearch;
+    $('#searchBar').on('keyup', function() {
+        $.get('/orderlists/manageRequest.php', {makeRequest: 'get'}, function (orderLists) {
+            dataSearch  = orderLists;
+       }, 'json');
+        var value = $(this).val().toLowerCase();
+        if(!value) {
+            load();
+            return
+        }
+        var foundList =  $.map(dataSearch, function(list) {
+            if(list.name.toLowerCase().includes(value)){
+                return list;
+            }
+            
+        })
+        orderul.html('');
+        priul.html('');
+        doneul.html('');
+        displayList(foundList);
+    });
+    
+    //search up down icon
+    up.on('click', function() {
+            $(this).parent().addClass('show');
+            searchBar.slideDown(200, function() {
+                search.addClass('sb');
+            })
+    })
+    down.on('click', function() {
+            $(this).parent().removeClass('show');
+            searchBar.slideUp(200, function() {
+                search.removeClass('sb');
+            })
+    })
+    // **** 
 })

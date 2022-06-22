@@ -11,7 +11,13 @@
 <body>
     <div class="container">
         <h2>Orders Lists</h2>
-
+        <div class="search">
+            <input type="search" name="search" id="searchBar" placeholder>
+            <div id="up-down">
+            <i class="fas fa-caret-up" id="up"></i>
+            <i class="fas fa-caret-down" id="down"></i>
+         </div>
+        </div>
         <ul id="prioritylists">
 
         </ul>
@@ -51,8 +57,8 @@
             </fieldset>
         </div>
     </div>
+
     <script src="./jQuery/jquery.js"></script>
     <script src="./app.js"></script>
-    <script src="./script.js"></script>
 </body>
 </html>
