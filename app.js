@@ -27,6 +27,18 @@ $(function () {
             l3 = $('#prioritylists li').length;
             sum = l1 + l2+ l3 ;
             $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
+        
+            if(sum < 2) {
+                $('#searchBar').css('opacity', '0');
+                $('#searchBar').attr('readonly', 'true');
+                $('#searchBar').removeAttr('placeholder').defaultValue;
+
+            }else{
+                $('#searchBar').css('opacity', '1');
+                $('#searchBar').val('');
+                $('#searchBar').attr('placeholder', 'Search name in '+sum +' lists');
+                $('#searchBar').removeAttr('readonly');
+            }
        }, 'json');
     }
   
@@ -106,6 +118,12 @@ $(function () {
             listOrder(addOrderList, addListId);       
             ++sum;
             $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
+            if(sum > 1) {
+                load();
+
+            }else{
+                $('#searchBar').attr('readonly', 'true');
+            }
 
     });
         addName.val('');
@@ -489,12 +507,21 @@ $(function () {
             // a.fadeOut(200, function() {
             //     $(this).remove();
             // });
-            load();
         })   
        if(sum > 0) {
         --sum;
         $('#searchBar').attr('placeholder','Search name in '+sum +' lists');
-       }     
+       }  
+       if(sum < 2) {
+        //    $('#searchBar').attr('placeholder','at least one item');
+        //    $('#searchBar').attr('readonly', 'true');
+        $('#searchBar').attr('placeholder', 'You have 1 item now');
+            load();
+        }else{
+            $('#searchBar').removeAttr('readonly');
+        }
+        // if(sum == 1) {
+        // }
     });
    }
    deleteAll(orderul);
@@ -538,4 +565,5 @@ $(function () {
             })
     })
     // **** 
+
 })
